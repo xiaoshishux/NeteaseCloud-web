@@ -1,0 +1,135 @@
+<template>
+  <div>
+    <div class="container">
+      <el-row>
+        <!-- logo -->
+        <el-col :span="4" :offset="2" class="col1">
+          <h1 class="logo">
+            <a href="/">neteasecloud-web</a>
+          </h1>
+        </el-col>
+        <!-- 菜单栏 -->
+        <el-col :span="8">
+          <el-menu
+            :default-active="activeIndex2"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+          >
+            <el-menu-item index="/home">
+              <router-link to="/home" tag="div" class="link-div"></router-link>
+              发现音乐</el-menu-item
+            >
+            <el-menu-item index="/mymusic">
+              <router-link
+                to="/mymusic"
+                tag="div"
+                class="link-div"
+              ></router-link>
+              我的音乐</el-menu-item
+            >
+            <el-menu-item index="/singer">
+              <router-link
+                to="/singer"
+                tag="div"
+                class="link-div"
+              ></router-link>
+              歌手</el-menu-item
+            >
+            <el-menu-item index="/singlist">
+              <router-link
+                to="/singlist"
+                tag="div"
+                class="link-div"
+              ></router-link>
+              歌单</el-menu-item
+            >
+            <el-menu-item index="/rank">
+              <router-link to="/rank" tag="div" class="link-div"></router-link>
+              排行</el-menu-item
+            >
+          </el-menu>
+        </el-col>
+        <!-- 搜索登录 -->
+        <el-col :span="8" class="colInput">
+          <search></search>
+          <div class="login">登录</div>
+          <div>
+            <img src="" alt="" />
+            <span></span>
+
+            <!-- 用户信息 -->
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 发现音乐 我的音乐 歌手 歌单 MV -->
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import Search from "../headers/search/Search.vue";
+export default {
+  name: "HeadersMenu",
+  components: {
+    Search,
+  },
+  props: {},
+  data() {
+    return {};
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {},
+};
+</script>
+
+<style scoped lang="less">
+.container {
+  height: 69px;
+  background-color: #545c64;
+  height: 100%;
+}
+h1 {
+  width: 176px;
+  background: url(../../assets/spring/1.png) no-repeat;
+  a {
+    display: block;
+    height: 69px;
+    width: 157px;
+    font-size: 0;
+  }
+}
+.el-menu {
+  border-bottom: none;
+}
+.el-menu-item {
+  padding: 0 30px;
+  height: 69px;
+  line-height: 69px;
+}
+
+.el-input {
+  widows: 300px;
+}
+
+.colInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 69px;
+  .login {
+    margin: 0 30px;
+    &:hover {
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+}
+</style>
