@@ -67,25 +67,35 @@
     </div>
     <!-- 发现音乐 我的音乐 歌手 歌单 MV -->
     <router-view></router-view>
+    <!-- 登录对话框 -->
+    <!-- <login-dialog></login-dialog> -->
   </div>
 </template>
 
 <script>
 import Search from "../headers/search/Search.vue";
+// import LoginDialog from "./login/login.vue";
 export default {
   name: "HeadersMenu",
   components: {
     Search,
+    // LoginDialog,
   },
   props: {},
   data() {
-    return {};
+    return {
+      activeIndex2: "1",
+    };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+  },
 };
 </script>
 

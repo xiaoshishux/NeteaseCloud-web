@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 const headerMenu = () => import('../components/headers/headerMenu')
 const Home = () => import('../views/Home/Home.vue')
+const ToLogin = () => import('../views/ToLogin.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +16,9 @@ const routes = [
     children: [
       {
         path: '/home', component: Home
+      },
+      {
+        path: '/login', component: ToLogin
       }
     ]
   }
