@@ -12,12 +12,11 @@
         <el-col :span="8">
           <el-menu
             :default-active="activeIndex2"
-            class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
             background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
+            text-color="#DFDFDF"
+            active-text-color="#fff"
           >
             <el-menu-item index="/home">
               <router-link to="/home" tag="div" class="link-div"></router-link>

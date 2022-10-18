@@ -9,3 +9,13 @@ export const getBannerImg = () => {
         url: '/banner?type=0',
     })
 }
+
+
+export const getNewSong = (info) => {
+    return request({
+        method: 'get',
+        url: '/album/new',
+        params: info
+    })
+}
+
