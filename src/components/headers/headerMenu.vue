@@ -68,23 +68,24 @@
     <!-- 发现音乐 我的音乐 歌手 歌单 MV -->
     <router-view></router-view>
     <!-- 登录对话框 -->
-    <!-- <login-dialog></login-dialog> -->
+    <login-dialog v-show="isShow" @ctrClose="ctrClosed"></login-dialog>
   </div>
 </template>
 
 <script>
 import Search from "../headers/search/Search.vue";
-// import LoginDialog from "./login/login.vue";
+import LoginDialog from "./login/login.vue";
 export default {
   name: "HeadersMenu",
   components: {
     Search,
-    // LoginDialog,
+    LoginDialog,
   },
   props: {},
   data() {
     return {
       activeIndex2: "1",
+      isShow: false, // 登录弹框显示与隐藏
     };
   },
   computed: {},
@@ -94,6 +95,10 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    // 登录框 叉号事件
+    ctrClosed() {
+      this.isShow = false;
     },
   },
 };

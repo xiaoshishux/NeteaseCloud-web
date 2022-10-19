@@ -4,7 +4,7 @@
     <div class="loginBox">
       <h2>
         <span>登录</span>
-        <span>×</span>
+        <span @click="clone">×</span>
       </h2>
       <!-- 二维码登录 -->
       <!-- <p class="qrStatus">二维码不存在或已过期，请刷新</p>
@@ -90,6 +90,18 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    //点击 x关闭登录框事件
+    clone() {
+      this.$emit("ctrClose"); // 通过自定义事件向父组件(headerMenu)传值
+      // 登录框关闭重置表单并移除验证
+      this.$refs.loginRef.resetFields();
+      // 如果当前路由为 /login 则关闭窗口跳转至 home
+      if (this.$route.path === "login") {
+        this.$router.push("/home");
+        window.sessionStorage.setItem("activeIndex", "/home");
+        this.$store.state.activeIndex = "/home";
+      }
+    },
     // 手机号登录
     loginBtn() {
       // 请求前进行表单预验证

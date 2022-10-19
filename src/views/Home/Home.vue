@@ -20,12 +20,14 @@
 <script>
 import BannerImg from "../../components/banner/BannerImg.vue";
 import NewSongs from "../homeChildren/newSongs.vue";
+// import newSongInfo from "../homeChildren/newSongInfo.vue";
 import { getBannerImg, getNewSong } from "../../api/home";
 export default {
   name: "HomeIndex",
   components: {
     BannerImg,
     NewSongs,
+    // newSongInfo,
   },
   props: {},
   data() {
