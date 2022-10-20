@@ -123,6 +123,21 @@ export default {
       if (res.code !== 200) {
         return this.$message.error("登录失败");
       }
+      // 将用户相关信息存入 vuex
+      let profile = {
+        nickName: res.profile.nickName,
+        avatarUrl: res.profile.avatarUrl,
+        userId: res.profile.userId,
+      };
+      window.sessionStorage.setItem("profile", JSON.stringify(profile));
+      this.$emit("ctrLoginBtn");
+
+      // 登录成功跳转至mymusic
+      if (this.$route.path === "login") {
+        this.$router.push("/mymusic");
+        window.sessionStorage.setItem("activeIndex", "/mymusic");
+        this.$store.state.activeIndex = "/mymusic";
+      }
     },
   },
 };

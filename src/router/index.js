@@ -5,6 +5,7 @@ const headerMenu = () => import('../components/headers/headerMenu')
 const Home = () => import('../views/Home/Home.vue')
 const ToLogin = () => import('../views/ToLogin.vue')
 const newSongInfo = () => import('../views/homeChildren/newSongInfo.vue')
+const Singer = () => import('../views/Home/Singer.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,7 +22,12 @@ const routes = [
       {
         path: '/login', component: ToLogin
       },
-      { path: "/newSongInfo", component: newSongInfo }
+      {
+        path: "/newSongInfo", component: newSongInfo
+      },
+      {
+        path: "/singer", component: Singer
+      }
     ]
   }
   // {

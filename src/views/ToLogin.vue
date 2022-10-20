@@ -1,6 +1,6 @@
 <template>
   <div class="tologin">
-    <login></login>
+    <login @ctrLoginBtn="ctrLogin"></login>
   </div>
 </template>
 
@@ -19,7 +19,12 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    // 通过 login 传的事件 再次传到 headerMenu 组件 来显示登录后头像等信息
+    ctrLogin() {
+      this.$emit("emitLogin");
+    },
+  },
 };
 </script>
 

@@ -19,7 +19,11 @@
             <li v-for="(item, index) in getArea" :key="index">
               <div class="cover">
                 <img :src="item.picUrl" class="image" />
-                <a class="mask" href="#"></a>
+                <a
+                  class="mask"
+                  href="#"
+                  @click.prevent="toggleNewSongInfo()"
+                ></a>
                 <p>{{ item.name }}</p>
                 <p>{{ item.artist.name }}</p>
               </div>
@@ -50,7 +54,11 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    toggleNewSongInfo() {
+      this.$router.push("/newSonInfo");
+    },
+  },
 };
 </script>
 

@@ -19,37 +19,30 @@
             active-text-color="#fff"
           >
             <el-menu-item index="/home">
-              <router-link to="/home" tag="div" class="link-div"></router-link>
-              发现音乐</el-menu-item
-            >
+              <router-link to="/home" tag="div" class="link-div"
+                >发现音乐</router-link
+              >
+            </el-menu-item>
             <el-menu-item index="/mymusic">
-              <router-link
-                to="/mymusic"
-                tag="div"
-                class="link-div"
-              ></router-link>
-              我的音乐</el-menu-item
-            >
+              <router-link to="/mymusic" tag="div" class="link-div"
+                >我的音乐</router-link
+              >
+            </el-menu-item>
             <el-menu-item index="/singer">
-              <router-link
-                to="/singer"
-                tag="div"
-                class="link-div"
-              ></router-link>
-              歌手</el-menu-item
-            >
+              <router-link to="/singer" tag="div" class="link-div"
+                >歌手</router-link
+              >
+            </el-menu-item>
             <el-menu-item index="/singlist">
-              <router-link
-                to="/singlist"
-                tag="div"
-                class="link-div"
-              ></router-link>
-              歌单</el-menu-item
-            >
+              <router-link to="/singlist" tag="div" class="link-div"
+                >歌单</router-link
+              >
+            </el-menu-item>
             <el-menu-item index="/rank">
-              <router-link to="/rank" tag="div" class="link-div"></router-link>
-              排行</el-menu-item
-            >
+              <router-link to="/rank" tag="div" class="link-div"
+                >排行</router-link
+              >
+            </el-menu-item>
           </el-menu>
         </el-col>
         <!-- 搜索登录 -->
