@@ -28,3 +28,20 @@ export const getSimiSinger = (value) => {
         }
     })
 }
+
+// 获取歌单分类
+export const getPlaylistCat = () => {
+    return request({
+        methods: 'get',
+        url: `/playlist/catlist`,
+    })
+}
+
+// 获取歌单（网友精选单）
+export const getPlaylistTop = (queryInfo) => {
+    return request({
+        methods: 'get',
+        url: `/top/playlist`,
+        params: queryInfo
+    })
+}

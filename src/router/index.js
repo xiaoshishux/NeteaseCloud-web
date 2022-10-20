@@ -6,6 +6,7 @@ const Home = () => import('../views/Home/Home.vue')
 const ToLogin = () => import('../views/ToLogin.vue')
 const newSongInfo = () => import('../views/homeChildren/newSongInfo.vue')
 const Singer = () => import('../views/Home/Singer.vue')
+const SingList = () => import('../views/Home/SingList.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,6 +28,9 @@ const routes = [
       },
       {
         path: "/singer", component: Singer
+      },
+      {
+        path: "/singList", component: SingList
       }
     ]
   }
