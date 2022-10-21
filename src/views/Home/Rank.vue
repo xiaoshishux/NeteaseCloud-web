@@ -72,7 +72,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.getToplistCommentRef();
+    // this.getToplistCommentRef();
   },
   mounted() {},
   methods: {
@@ -82,14 +82,11 @@ export default {
       //   console.log(res);
       this.toplist = res;
       this.queryInfo.id = id; //19723756
+      this.getToplistCommentRef();
     },
     // 获取榜单评论
     async getToplistCommentRef() {
-      const { data: res } = await getPlayComment({
-        id: "19723756",
-        limit: 20,
-        offset: 0,
-      });
+      const { data: res } = await getPlayComment(this.queryInfo);
       console.log(res);
       this.toplistComments = res;
       // 超 5000 评论 获取下一页数据
