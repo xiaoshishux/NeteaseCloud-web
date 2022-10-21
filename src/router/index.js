@@ -7,6 +7,7 @@ const ToLogin = () => import('../views/ToLogin.vue')
 const newSongInfo = () => import('../views/homeChildren/newSongInfo.vue')
 const Singer = () => import('../views/Home/Singer.vue')
 const SingList = () => import('../views/Home/SingList.vue')
+const Rank = () => import('../views/Home/Rank.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -31,6 +32,9 @@ const routes = [
       },
       {
         path: "/singList", component: SingList
+      },
+      {
+        path: "/rank", component: Rank
       }
     ]
   }

@@ -45,3 +45,14 @@ export const getPlaylistTop = (queryInfo) => {
         params: queryInfo
     })
 }
+
+// 获取歌单详情 
+export const getPlaylistDet = (value) => {
+    return request({
+        methods: 'get',
+        url: `/playlist/detail`,
+        params: {
+            id: value
+        }
+    })
+}
