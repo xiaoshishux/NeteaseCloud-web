@@ -34,14 +34,15 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      newSongsInfo: [], //全部新碟的数据
-      banner: [], //轮播图的数据
       queryInfo: {
         //请求参数
         limit: 30,
         offset: 0,
         area: "",
       },
+      newSongsInfo: [], //全部新碟的数据
+      banner: [], //轮播图的数据
+
       pageInfo: {
         pageNum: 1, //当前页码
         total: 0, //总页码
@@ -56,22 +57,29 @@ export default {
   },
   mounted() {},
   methods: {
+    // 获取 banner 图数据
     async getBannerImgRef() {
       const { data: res } = await getBannerImg();
       // console.log(res);
       this.banner = res.banners;
     },
+
+    // 获取新碟数据
     async getNewSongRef() {
       const res = await getNewSong(this.queryInfo);
-      console.log(res);
+      // console.log(res);
       this.newSongsInfo = res.data.albums;
       this.pageInfo.total = res.data.total;
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange(pageSize) {
+      this.queryInfo.limit = pageSize;
+      this.getNewSongsRef();
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange(pagenum) {
+      this.pageInfo.pageNum = pagenum;
+      this.queryInfo.offset =
+        (this.pageInfo.pageNum - 1) * this.queryInfo.limit;
+      this.getNewSongsRef();
     },
   },
 };
