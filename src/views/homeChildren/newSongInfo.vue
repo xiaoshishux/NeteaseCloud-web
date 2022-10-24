@@ -84,6 +84,7 @@
                     :key="index"
                   >
                     {{ item.name }}
+                    <i v-if="index === scope.row.ar.length - 1 ? 0 : 1"></i>
                   </span>
                 </template>
               </el-table-column>
@@ -95,8 +96,9 @@
             </el-table>
           </div>
           <!-- 专辑评论 -->
+          <album-coment :albumComentsObj="albumComents"></album-coment>
           <!-- 分页 -->
-          <el-pagination
+          <!-- <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
@@ -105,7 +107,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="400"
           >
-          </el-pagination>
+          </el-pagination> -->
         </el-card>
       </el-col>
       <el-col :span="6">
@@ -141,10 +143,14 @@
 </template>
 
 <script>
-import { getNewSongInfo, getAlbumDet, getSimiSinger } from "@/api/Sing";
+import { getNewSongInfo, getAlbumDet } from "@/api/Sing";
+import AlbumComent from "@/components/coments/AlbumComent.vue";
+import { getAlbumComment } from "../../api/comment";
 export default {
   name: "newSongInfo",
-  components: {},
+  components: {
+    AlbumComent,
+  },
   props: {},
   data() {
     return {
@@ -175,14 +181,22 @@ export default {
         before: null,
       },
       singerDec: [], // 歌手描述信息
+      // 专辑评论 数据对象
+      albumComents: {
+        // 评论数量
+        total: 0,
+        comments: [],
+        hotComments: [],
+      },
     };
   },
   computed: {},
   watch: {},
   created() {
     this.getNewSongInfoRef();
-    this.getAlbumDetRef();
-    this.getSimiSingerRef();
+    this.getAlbumCommentRef();
+    // this.getAlbumDetRef();
+    // this.getSimiSingerRef();
   },
   mounted() {},
   methods: {
@@ -200,7 +214,7 @@ export default {
     // 根据对应 id 获取 新碟详情
     async getNewSongInfoRef() {
       const { data: res } = await getNewSongInfo(this.$store.state.albumId);
-      console.log(res);
+      // console.log(res);
       // 处理专辑描述字符串 存为数组
       this.description = res.album.description
         .split()
@@ -229,11 +243,19 @@ export default {
       //   console.log(this.singerDec);
     },
     // 获取相似歌手
-    async getSimiSingerRef() {
-      const { data: res } = await getSimiSinger(
-        this.newSongInfoObj.album.artist.id
-      );
+    // async getSimiSingerRef() {
+    //   const { data: res } = await getSimiSinger(
+    //     this.newSongInfoObj.album.artist.id
+    //   );
+    //   console.log(res);
+    // },
+    // 获取专辑评论
+    async getAlbumCommentRef() {
+      const { data: res } = await getAlbumComment(this.queryInfo);
       console.log(res);
+      this.albumComents.total = res.total;
+      this.albumComents.comments = res.comments;
+      this.albumComents.hotComments = res.hotComments;
     },
   },
 };

@@ -9,3 +9,12 @@ export const getPlayComment = (queryInfo) => {
         params: queryInfo
     })
 }
+
+// 获取专辑评论
+export const getAlbumComment = (queryInfo) => {
+    return request({
+        methods: 'get',
+        url: '/comment/album',
+        params: queryInfo
+    })
+}
