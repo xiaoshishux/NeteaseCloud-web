@@ -13,7 +13,7 @@
               <h3>{{ newSongInfoObj.album.name }}</h3>
               <p class="singer">歌手：{{ newSongInfoObj.album.artist.name }}</p>
               <p class="singer">
-                发行时间：{{ newSongInfoObj.album.publishTime }}
+                发行时间：{{ newSongInfoObj.album.publishTime | dataFormate }}
               </p>
               <p class="singer">发行公司：{{ newSongInfoObj.album.company }}</p>
             </div>
@@ -21,7 +21,7 @@
 
           <div class="boxDec">
             <!-- 专辑描述1 -->
-            <div class="dec1">
+            <div class="dec1" v-show="isShow">
               <p class="pro">专辑介绍</p>
               <p
                 class="isShowCon"
@@ -32,7 +32,7 @@
               </p>
             </div>
             <!-- 专辑描述2 -->
-            <div class="dec2">
+            <div class="dec2" v-show="isShowE">
               <p class="pro">专辑介绍</p>
               <p
                 class="isShowCon"
@@ -43,8 +43,8 @@
               </p>
             </div>
             <!-- 展开收起按钮 -->
-            <div class="show"></div>
-            <div class="show"></div>
+            <div class="show" @click="doShowText" v-if="showText">展开</div>
+            <div class="show" @click="doShowTextE" v-else>收起</div>
           </div>
 
           <!-- 歌曲列表 -->
@@ -89,7 +89,7 @@
               </el-table-column>
               <el-table-column prop="dt" label="时长" width="100">
                 <template #default="scope">
-                  {{ scope.row.dt }}
+                  {{ scope.row.dt | secondFormate }}
                 </template>
               </el-table-column>
             </el-table>
@@ -141,14 +141,19 @@
 </template>
 
 <script>
-import { getNewSongInfo, getAlbumDet, getSimiSinger } from "../../api/Sing";
+import { getNewSongInfo, getAlbumDet, getSimiSinger } from "@/api/Sing";
 export default {
   name: "newSongInfo",
   components: {},
   props: {},
   data() {
     return {
-      id: 153345099,
+      // 是否展开描述
+      isShow: true,
+      isShowE: false,
+      // 展开 收起 文字
+      showText: true,
+      // 新碟详情信息对象
       newSongInfoObj: {
         // 新碟详情描述
         album: {
@@ -160,8 +165,15 @@ export default {
         // 新碟包含歌曲
         songs: [],
       },
-      description: [], //专辑描述字符串数组
-      artistId: 44266,
+      // 专辑描述字符串数组
+      description: [],
+      // 专辑评论查询参数
+      queryInfo: {
+        id: this.$store.state.albumId,
+        limit: 20,
+        offset: 0,
+        before: null,
+      },
       singerDec: [], // 歌手描述信息
     };
   },
@@ -174,10 +186,21 @@ export default {
   },
   mounted() {},
   methods: {
+    // 展开文字事件监听
+    doShowText() {
+      this.isShow = false;
+      this.isShowE = true;
+      this.showText = false;
+    },
+    doShowTextE() {
+      this.isShow = true;
+      this.isShowE = false;
+      this.showText = true;
+    },
     // 根据对应 id 获取 新碟详情
     async getNewSongInfoRef() {
-      const { data: res } = await getNewSongInfo(this.id);
-      //   console.log(res);
+      const { data: res } = await getNewSongInfo(this.$store.state.albumId);
+      console.log(res);
       // 处理专辑描述字符串 存为数组
       this.description = res.album.description
         .split()
@@ -189,18 +212,27 @@ export default {
       this.newSongInfoObj.album = res.album;
       this.newSongInfoObj.songs = res.songs;
       this.newSongInfoObj.album.artist.id = res.album.artist.id;
+      this.getAlbumDetRef();
     },
 
     // 获取歌手详细
     async getAlbumDetRef() {
-      const { data: res } = await getAlbumDet(this.artistId);
+      const { data: res } = await getAlbumDet(
+        this.newSongInfoObj.album.artist.id
+      );
+      if (res.code !== 200) {
+        return this.$message.error("新歌速递获取失败");
+      }
       //   console.log(res);
+      // 分割歌手描述字符串 存入数组
       this.singerDec = res.briefDesc.split().join().split("\n\n");
       //   console.log(this.singerDec);
     },
     // 获取相似歌手
     async getSimiSingerRef() {
-      const { data: res } = await getSimiSinger(this.artistId);
+      const { data: res } = await getSimiSinger(
+        this.newSongInfoObj.album.artist.id
+      );
       console.log(res);
     },
   },

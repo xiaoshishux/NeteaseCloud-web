@@ -9,20 +9,21 @@
               <span>全部新碟</span>
             </h3>
             <div class="tip">
-              <a>华语</a><span>|</span> <a>欧美</a><span>|</span> <a>韩国</a
-              ><span>|</span>
-              <a>日本</a>
+              <a @click.prevent="toggleZH">华语</a><span>|</span>
+              <a @click.prevent="toggleEA">欧美</a><span>|</span>
+              <a @click.prevent="toggleKR">韩国</a><span>|</span>
+              <a @click.prevent="toggleJP">日本</a>
             </div>
           </div>
           <!-- 内容 -->
           <ul>
-            <li v-for="(item, index) in getArea" :key="index">
+            <li v-for="item in this.$store.state.resSongs" :key="item.id">
               <div class="cover">
                 <img :src="item.picUrl" class="image" />
                 <a
                   class="mask"
                   href="#"
-                  @click.prevent="toggleNewSongInfo()"
+                  @click.prevent="toggleNewSongInfo(item.id)"
                 ></a>
                 <p>{{ item.name }}</p>
                 <p>{{ item.artist.name }}</p>
@@ -36,17 +37,11 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "NewSongs",
   components: {},
-  props: {
-    getArea: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-  },
+  props: {},
   data() {
     return {};
   },
@@ -55,8 +50,27 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    toggleNewSongInfo() {
-      this.$router.push("/newSonInfo");
+    // 点击地区分类，切换相应内容
+    toggleZH() {
+      this.$emit("getArea", "ZH");
+    },
+    toggleEA() {
+      this.$emit("getArea", "EA");
+    },
+    toggleKR() {
+      this.$emit("getArea", "KR");
+    },
+    toggleJP() {
+      this.$emit("getArea", "JP");
+    },
+
+    // vuex 中相关处理数据函数
+    ...mapMutations(["albumIdMutations"]),
+    // 点击新碟 跳转至该碟详情
+    toggleNewSongInfo(id) {
+      this.$router.push("/newSongInfo");
+      this.albumIdMutations(id);
+      // console.log(id);
     },
   },
 };

@@ -16,7 +16,11 @@
             <img :src="playListInfoAttr.playlist.creator.avatarUrl" alt="" />
             <span>
               <i>{{ playListInfoAttr.playlist.creator.nickname }}</i>
-              <i>创建时间：{{ playListInfoAttr.playlist.createTime }}</i>
+              <i
+                >创建时间：{{
+                  playListInfoAttr.playlist.createTime | dataFormate
+                }}</i
+              >
             </span>
           </p>
           <!-- 四个按钮 -->
@@ -70,7 +74,7 @@
         </el-table-column>
         <el-table-column prop="address" label="时长">
           <template #default="scope">
-            <i>{{ scope.row.dt }} </i>
+            <i>{{ scope.row.dt | secondFormate }} </i>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="歌手">

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <banner-img :bannerInfo="banner"></banner-img>
-    <new-songs :getArea="newSongsInfo"></new-songs>
+    <new-songs @getArea="getAreaInfo"></new-songs>
     <div class="pagination">
       <el-pagination
         @size-change="handleSizeChange"
@@ -40,7 +40,7 @@ export default {
         offset: 0,
         area: "",
       },
-      newSongsInfo: [], //全部新碟的数据
+      newSongsInfo: {}, //全部新碟的数据
       banner: [], //轮播图的数据
 
       pageInfo: {
@@ -61,15 +61,22 @@ export default {
     async getBannerImgRef() {
       const { data: res } = await getBannerImg();
       // console.log(res);
+      if (res.code !== 200) {
+        return this.$message.error("获取 banner 图失败");
+      }
       this.banner = res.banners;
     },
 
     // 获取新碟数据
     async getNewSongRef() {
-      const res = await getNewSong(this.queryInfo);
+      const { data: res } = await getNewSong(this.queryInfo);
       // console.log(res);
-      this.newSongsInfo = res.data.albums;
-      this.pageInfo.total = res.data.total;
+      if (res.code !== 200) {
+        return this.$message.error("新碟列表请求失败");
+      }
+      // this.newSongsInfo = res.data.albums;
+      this.$store.state.resSongs = res.albums;
+      this.pageInfo.total = res.total;
     },
     handleSizeChange(pageSize) {
       this.queryInfo.limit = pageSize;
@@ -80,6 +87,15 @@ export default {
       this.queryInfo.offset =
         (this.pageInfo.pageNum - 1) * this.queryInfo.limit;
       this.getNewSongsRef();
+    },
+
+    // 获取newSongs 子组件 传来的地区切换数据
+    getAreaInfo(areaInfo) {
+      console.log(areaInfo);
+      this.queryInfo.area = areaInfo;
+      // 将请求数据的偏移量重置为 0
+      this.queryInfo.offset;
+      this.getNewSongRef();
     },
   },
 };

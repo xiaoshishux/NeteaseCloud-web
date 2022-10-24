@@ -4,7 +4,7 @@ import request from "../utils/request.js"
 export const getNewSongInfo = (id) => {
     return request({
         methods: 'get',
-        url: "/album",
+        url: '/album',
         params: { id }
     })
 }

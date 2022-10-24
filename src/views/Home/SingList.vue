@@ -28,7 +28,7 @@
                 </a>
                 <div class="b_icon">
                   <i class="iconfont icon-icon-test"
-                    ><span>{{ item.playCount }}</span></i
+                    ><span>{{ item.playCount | counFormate }}</span></i
                   >
                   <i class="iconfont icon-hm_video_light"></i>
                 </div>
