@@ -45,11 +45,11 @@
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="this.pageNum"
+            :page-sizes="[50, 100, 200, 400]"
+            :page-size="this.queryInfo.limit"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
+            :total="this.total"
           >
           </el-pagination>
         </div>
@@ -82,6 +82,7 @@ export default {
       playList: [], //歌单数据
       total: null, //歌单数量
       isShow: false, // 歌单分类列表 显示与隐藏
+      pageNum: 1, //当前页
     };
   },
   computed: {},
@@ -92,6 +93,17 @@ export default {
   },
   mounted() {},
   methods: {
+    // 歌单展示数量改变事件
+    handleSizeChange(pagesize) {
+      this.queryInfo.limit = pagesize;
+      this.getPlaylistTopRef();
+    },
+    // 当前页改变事件
+    handleCurrentChange(pagenum) {
+      this.pageNum = pagenum;
+      this.queryInfo.offset = (pagenum - 1) * this.queryInfo.limit;
+      this.getPlaylistTopRef();
+    },
     // 获取歌单分类
     async getPlaylistCatRef() {
       const { data: res } = await getPlaylistCat();

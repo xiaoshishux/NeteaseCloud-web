@@ -78,15 +78,17 @@ export default {
       this.$store.state.resSongs = res.albums;
       this.pageInfo.total = res.total;
     },
+    // 监听页面数据个数事件
     handleSizeChange(pageSize) {
       this.queryInfo.limit = pageSize;
-      this.getNewSongsRef();
+      this.getNewSongRef();
     },
+    // 监听当前页面改变事件
     handleCurrentChange(pagenum) {
       this.pageInfo.pageNum = pagenum;
       this.queryInfo.offset =
         (this.pageInfo.pageNum - 1) * this.queryInfo.limit;
-      this.getNewSongsRef();
+      this.getNewSongRef();
     },
 
     // 获取newSongs 子组件 传来的地区切换数据

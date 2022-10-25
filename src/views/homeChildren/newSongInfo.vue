@@ -98,16 +98,16 @@
           <!-- 专辑评论 -->
           <album-coment :albumComentsObj="albumComents"></album-coment>
           <!-- 分页 -->
-          <!-- <el-pagination
+          <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="this.pageNum"
+            :page-sizes="[20, 40, 80, 160]"
+            :page-size="this.queryInfo.limit"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
+            :total="this.albumComents.total"
           >
-          </el-pagination> -->
+          </el-pagination>
         </el-card>
       </el-col>
       <el-col :span="6">
@@ -188,6 +188,7 @@ export default {
         comments: [],
         hotComments: [],
       },
+      pageNum: 1, // 分页参数
     };
   },
   computed: {},
@@ -200,6 +201,17 @@ export default {
   },
   mounted() {},
   methods: {
+    // 单页评论数量改变事件
+    handleSizeChange(pagesize) {
+      this.queryInfo.limit = pagesize;
+      this.getAlbumCommentRef();
+    },
+    // 页面改变事件
+    handleCurrentChange(pagenum) {
+      this.pageNum = pagenum;
+      this.queryInfo.offset = (pagenum - 1) * this.queryInfo.limit;
+      this.getAlbumCommentRef();
+    },
     // 展开文字事件监听
     doShowText() {
       this.isShow = false;

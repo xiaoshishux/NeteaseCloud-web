@@ -13,11 +13,11 @@
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="this.pageNum"
+            :page-sizes="[20, 40, 80, 160]"
+            :page-size="this.queryInfo.limit"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
+            :total="this.toplistComments.total"
           >
           </el-pagination>
         </div>
@@ -67,6 +67,7 @@ export default {
         comments: [],
         hotComments: [],
       },
+      pageNum: 1, //当前页
     };
   },
   computed: {},
@@ -76,6 +77,17 @@ export default {
   },
   mounted() {},
   methods: {
+    // 页面评论数量改变事件
+    handleSizeChange(pagesize) {
+      this.queryInfo.limit = pagesize;
+      this.getToplistCommentRef();
+    },
+    // 当前页改变事件
+    handleCurrentChange(pagenum) {
+      this.pageNum = pagenum;
+      this.queryInfo.offset = (pagenum - 1) * this.queryInfo.limit;
+      this.getToplistCommentRef();
+    },
     // 获取榜单详情
     async getToplistDet(id) {
       const { data: res } = await getPlaylistDet(id);
