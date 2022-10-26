@@ -8,6 +8,9 @@ const newSongInfo = () => import('../views/homeChildren/newSongInfo.vue')
 const Singer = () => import('../views/Home/Singer.vue')
 const SingList = () => import('../views/Home/SingList.vue')
 const Rank = () => import('../views/Home/Rank.vue')
+const SingerDet = () => import('../components/Singer/SingerDet.vue')
+const SongDet = () => import('../components/song/songDet/SongDet.vue')
+const MvDet = () => import('../components/mv/MvDet.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -35,7 +38,17 @@ const routes = [
       },
       {
         path: "/rank", component: Rank
+      },
+      {
+        path: "/singer/detail", component: SingerDet
+      },
+      {
+        path: "/songs/detail", component: SongDet
+      },
+      {
+        path: "/mvdet", component: MvDet
       }
+
     ]
   }
   // {

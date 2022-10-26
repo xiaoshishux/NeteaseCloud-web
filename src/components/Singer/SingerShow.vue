@@ -13,12 +13,18 @@
           <div>
             <ul class="content">
               <li v-for="item in ListInfoAttr" :key="item.id">
-                <div class="cover">
+                <div class="cover" @click.prevent="saveSingerId(item.id)">
                   <img :src="item.img1v1Url" alt="" />
                 </div>
                 <p class="clearfix">
-                  <a href="">{{ item.name }}</a>
-                  <a href=""></a>
+                  <a href="#" @click.prevent="saveSingerId(item.id)">{{
+                    item.name
+                  }}</a>
+                  <a
+                    href="#"
+                    class="iconfont icon-icon--my"
+                    @click.prevent="saveSingerId(item.id)"
+                  ></a>
                 </p>
               </li>
             </ul>
@@ -30,6 +36,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "SingerShow",
   components: {},
@@ -48,7 +55,16 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    // vuex歌手id处理函数
+    ...mapMutations(["singerIdMutations"]),
+    // 点击歌手储存歌手id
+    saveSingerId(id) {
+      this.singerIdMutations(id);
+      // console.log(this.$store.state.singerId);
+      this.$router.push("/singer/detail");
+    },
+  },
 };
 </script>
 

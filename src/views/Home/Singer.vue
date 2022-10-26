@@ -66,7 +66,7 @@ export default {
     // 获取 10 个热门歌手
     async getSingerTypeRef() {
       const { data: res } = await getHotSinger({ limit: 100 });
-      console.log(res);
+      // console.log(res);
       if (res.code !== 200) {
         return this.message.error("歌手列表获取失败");
       }
