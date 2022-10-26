@@ -18,3 +18,12 @@ export const getAlbumComment = (queryInfo) => {
         params: queryInfo
     })
 }
+
+// 获取歌曲评论
+export const getSongComment = (queryInfo) => {
+    return request({
+        methods: 'get',
+        url: '/comment/music',
+        params: queryInfo
+    })
+}

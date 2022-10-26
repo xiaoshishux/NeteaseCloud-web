@@ -56,3 +56,20 @@ export const getPlaylistDet = (value) => {
         }
     })
 }
+// 获取歌曲详情
+export const getSongsDet = (ids) => {
+    return request({
+        methods: 'get',
+        url: `/song/detail`,
+        params: { ids }
+    })
+}
+
+// 获取歌词
+export const getLyric = (id) => {
+    return request({
+        methods: 'get',
+        url: `/lyric`,
+        params: { id }
+    })
+}
