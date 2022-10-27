@@ -47,7 +47,11 @@
                 <el-table-column width="200px">
                   <template #default="scope">
                     <i class="iconfont icon-hm_video_light"></i>
-                    <i class="iconfont icon-chakanMV" v-if="scope.row.mv"></i>
+                    <i
+                      class="iconfont icon-chakanMV"
+                      v-if="scope.row.mv"
+                      @click="saveMvId(scope.row.mv)"
+                    ></i>
                   </template>
                 </el-table-column>
                 <el-table-column label="歌曲" width="400px" class="s_name">
