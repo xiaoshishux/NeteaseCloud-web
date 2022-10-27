@@ -73,3 +73,21 @@ export const getLyric = (id) => {
         params: { id }
     })
 }
+
+// 获取相似歌单
+export const getSimiPlaylist = (id) => {
+    return request({
+        methods: 'get',
+        url: `/simi/playlist`,
+        params: { id }
+    })
+}
+
+// 获取相似音乐
+export const getSimiSongs = (id) => {
+    return request({
+        methods: 'get',
+        url: `/simi/song`,
+        params: { id }
+    })
+}

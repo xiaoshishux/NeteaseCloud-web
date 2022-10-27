@@ -18,20 +18,26 @@
                 <i class="iconfont icon-MV" v-if="songDet.mv"></i>
               </h4>
               <p class="s_name">
-                歌手：
-                <span v-for="item in songDet.ar" :key="item.id"
-                  >{{ item.name }}
-                  <i></i>
-                </span>
+                歌手：<span
+                  v-for="(item, index) in songDet.ar"
+                  :key="item.id"
+                  @click="getSingerId(item.id)"
+                  >{{ item.name
+                  }}<i>{{
+                    index === songDet.ar.length - 1 ? "" : "/"
+                  }}</i></span
+                >
               </p>
-              <p class="s_name">
-                所属专辑：
-                <span
-                  >{{ songDet.al.name }}
-                  <i></i>
-                </span>
+              <p class="al_name">
+                所属专辑：<span @click="getalbumId(songDet.al.id)">{{
+                  songDet.al.name
+                }}</span>
               </p>
               <!-- 按钮 -->
+              <det-btn
+                :totalAttr="songComments.total"
+                :songDet="songDet"
+              ></det-btn>
               <!-- 歌词 -->
               <div :class="className">
                 <div v-html="lrc"></div>
@@ -51,43 +57,69 @@
           <!-- 评论 -->
           <album-coment :albumComentsObj="songComments"></album-coment>
         </el-card>
-        <!-- 评论分页 -->
+        <!-- 评论 分页 -->
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pagenum"
+          :page-sizes="[100, 200, 300, 400]"
+          :page-size="this.queryInfo.limit"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="songComments.total"
+        >
+        </el-pagination>
       </el-col>
       <el-col :span="5">
         <!-- 相似歌单 -->
+        <more-songs
+          :simiPlaylistAttr="simiPlaylist"
+          :simiSongsAttr="simiSongs"
+        ></more-songs>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { getSongsDet, getLyric } from "@/api/Sing.js";
+import DetBtn from "../DetBtn.vue";
+import MoreSongs from "./MoreSongs.vue";
+import {
+  getSongsDet,
+  getLyric,
+  getSimiPlaylist,
+  getSimiSongs,
+} from "@/api/Sing.js";
 import AlbumComent from "../../coments/AlbumComent.vue";
 import { getSongComment } from "../../../api/comment";
+import { mapMutations } from "vuex";
 export default {
   name: "SongDet",
   components: {
     AlbumComent,
+    DetBtn,
+    MoreSongs,
   },
   props: {},
   data() {
     return {
       // 歌曲详细
       songDet: {
-        // 专辑
-        al: {},
+        al: {}, // 专辑
       },
       className: "rc", // 歌词样式类名
       lrc: "", // 歌词
       showText: true, // 歌词展开收起按钮 文字
-      querIfon: {
-        // 歌曲评论请求 查询参数
+      // 歌曲评论请求 查询参数
+      queryInfo: {
         id: this.$store.state.songId,
         limit: 20,
         offset: 0,
         before: null,
       },
       songComments: {}, // 歌曲评论
+      simiPlaylist: [], //相似歌单
+      simiSongs: [], //相似歌曲
+      pagenum: 1, // 当前评论页
     };
   },
   computed: {},
@@ -104,6 +136,8 @@ export default {
       this.songDet = res.songs[0];
       this.getLyricRef();
       this.getSongCommentRef();
+      this.getSimiPlaylistRef();
+      this.getSimiSongsRef()();
     },
     // 获取歌词
     async getLyricRef() {
@@ -117,8 +151,42 @@ export default {
     // 获取歌曲评论
     async getSongCommentRef() {
       const { data: res } = await getSongComment(this.queryInfo);
-      console.log(res);
+      // console.log(res);
       this.songComments = res;
+    },
+    // 获取相似歌单
+    async getSimiPlaylistRef() {
+      const { data: res } = await getSimiPlaylist(this.$store.state.songId);
+      // console.log(res);
+      this.simiPlaylist = res.playlists;
+    },
+    // 获取相似音乐
+    async getSimiSongsRef() {
+      const { data: res } = await getSimiSongs(this.$store.state.songId);
+      // console.log(res);
+      this.simiSongs = res.songs;
+    },
+    // 监听页面数量
+    handleSizeChange(size) {
+      this.queryInfo.limit = size;
+      this.getSongCommentRef();
+    },
+    // 监听页面改变
+    handleCurrentChange(pagenum) {
+      this.pagenum = pagenum;
+      this.queryInfo.offset = (pagenum - 1) * this.queryInfo.limit;
+      this.getSongCommentRef();
+    },
+    ...mapMutations(["singerIdMutations", "albumIdMutations"]),
+    // 点击歌手 存储歌手 id 并跳转至歌手详情
+    getSingerId(id) {
+      this.singerIdMutations(id);
+      this.$router.push("/singer/detail");
+    },
+    // 点击专辑 存储专辑 id 并跳转至专辑页面
+    getalbumId(id) {
+      this.albumIdMutations(id);
+      this.$router.push("/newSongInfo");
     },
     // 监听歌词展开按钮事件
     onShow() {

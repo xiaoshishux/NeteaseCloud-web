@@ -11,6 +11,7 @@ export default new Vuex.Store({
     singerId: '', // 歌手 id
     songId: '',// 歌曲 id
     mvId: '', // mv id
+    playListId: ''//歌单 id
   },
   getters: {
   },
@@ -35,6 +36,11 @@ export default new Vuex.Store({
     mvIdIdMutations(state, id) {
       state.mvId = id;
       window.sessionStorage.setItem('mvId', JSON.stringify(id))
+    },
+    playListIdMutations(state, id) {
+      state.playListId = id;
+      window.sessionStorage.setItem('playListId', JSON.stringify(id))
+
     }
   },
   actions: {
