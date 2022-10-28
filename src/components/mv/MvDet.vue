@@ -5,7 +5,11 @@
         <el-card>
           <div class="info">
             <h4>{{ mvInfo.name }}</h4>
-            <a href="#" v-for="(item, i) in mvInfo.artists" :key="item.id"
+            <a
+              href="#"
+              v-for="(item, i) in mvInfo.artists"
+              :key="item.id"
+              @click="saveSingerId(item.id)"
               >{{ item.name
               }}<i>{{ i === mvInfo.artists.length - 1 ? "" : "/" }}</i></a
             >
@@ -48,12 +52,14 @@
               <h4>相关推荐</h4>
               <ul>
                 <li v-for="item in mvs" :key="item.id">
-                  <a href="">
+                  <a href="" @click.prevent="getCurrentMvDet(item.id)">
                     <img :src="item.cover" alt="" />
                     <i>{{ item.playCount | counFormate }}</i>
                   </a>
                   <div>
-                    <p>{{ item.name }}</p>
+                    <p @click.prevent="getCurrentMvDet(item.id)">
+                      {{ item.name }}
+                    </p>
                     <p>{{ item.duration | secondFormate }}</p>
                     <p>by{{ item.artistName }}</p>
                   </div>
@@ -70,6 +76,7 @@
 <script>
 import { getMvDet, getMvUrl, getMvComment, getSimiMv } from "../../api/mv";
 import AlbumComent from "../coments/AlbumComent.vue";
+import { mapMutations } from "vuex";
 export default {
   name: "MvDet",
   components: {
@@ -131,14 +138,27 @@ export default {
       // console.log(res);
       this.mvs = res.mvs;
     },
+    // 单页评论数量改变事件
     handleSizeChange(pagesize) {
       this.queryInfo.limit = pagesize;
       this.getMvCommentRef();
     },
+    // 页面改变事件
     handleCurrentChange(pagenum) {
       this.pageNum = pagenum;
       this.queryInfo.offset = (pagenum - 1) * this.queryInfo.limit;
       this.getMvCommentRef();
+    },
+    ...mapMutations(["mvIdMutations", "singerIdMutations"]),
+    // 点击相关 mv 显示该 mv 详情
+    getCurrentMvDet(id) {
+      this.mvIdMutations(id);
+      this.$router.go(0);
+    },
+    // 点击歌手名跳转歌手详细
+    saveSingerId(id) {
+      this.singerIdMutations(id);
+      this.$router.push("/singer/detail");
     },
   },
 };
