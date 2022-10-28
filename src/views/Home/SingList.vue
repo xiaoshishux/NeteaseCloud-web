@@ -150,7 +150,7 @@ export default {
     // 点击其余分类按钮 查询对应分类歌单
     queryCat(item) {
       this.queryInfo.cat = item;
-      this.getPlaylistTopRef;
+      this.getPlaylistTopRef();
       this.isShow = false;
     },
   },
