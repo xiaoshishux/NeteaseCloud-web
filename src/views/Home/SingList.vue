@@ -14,6 +14,8 @@
                 class="list_cat"
                 :categoriesAttr="categories"
                 :subAttr="sub"
+                @emitQueryAll="QueryAll"
+                @emitQueryCat="queryCat"
                 v-show="isShow"
               ></play-list-cat>
             </div>
@@ -23,7 +25,7 @@
           <div class="content">
             <ul>
               <li v-for="(item, i) in playList" :key="i">
-                <a href="">
+                <a href="" @click.prevent="toPlayListDet(item.id)">
                   <img :src="item.coverImgUrl" alt="" />
                 </a>
                 <div class="b_icon">
@@ -32,7 +34,9 @@
                   >
                   <i class="iconfont icon-hm_video_light"></i>
                 </div>
-                <p class="s_name">{{ item.name }}</p>
+                <p class="s_name" @click.prevent="toPlayListDet(item.id)">
+                  {{ item.name }}
+                </p>
                 <p class="nick_name">
                   <span>by</span><span>{{ item.creator.nickname }}</span>
                 </p>
@@ -61,6 +65,7 @@
 <script>
 import PlayListCat from "@/components/song/play/PlayListCat.vue";
 import { getPlaylistCat, getPlaylistTop } from "@/api/Sing";
+import { mapMutations } from "vuex";
 export default {
   name: "SingList",
   components: {
@@ -89,9 +94,10 @@ export default {
   watch: {},
   created() {
     this.getPlaylistCatRef();
+  },
+  beforeMount() {
     this.getPlaylistTopRef();
   },
-  mounted() {},
   methods: {
     // 歌单展示数量改变事件
     handleSizeChange(pagesize) {
@@ -114,7 +120,7 @@ export default {
     // 获取网友精选歌单
     async getPlaylistTopRef() {
       const { data: res } = await getPlaylistTop(this.queryInfo);
-      console.log(res);
+      // console.log(res);
       if (res.code !== 200) {
         return this.$message.error("获取失败");
       }
@@ -124,6 +130,28 @@ export default {
     // 点击分类按钮 展示分类选择框
     showCat() {
       this.isShow = !this.isShow;
+    },
+    // 歌单 id 处理函数
+    ...mapMutations(["playListIdMutations"]),
+    // 点击歌单跳转至歌单详情页
+    toPlayListDet(id) {
+      // 将歌单 id 存入 vuex
+      this.playListIdMutations(id);
+      // 将歌单 id 存入本地
+      window.sessionStorage.setItem("playListId", JSON.stringify(id));
+      this.$router.push("/singlist/detail");
+    },
+    // 点击全部风格 查询全部热门歌单
+    QueryAll() {
+      this.queryInfo.cat = "";
+      this.getPlaylistTopRef();
+      this.isShow = false;
+    },
+    // 点击其余分类按钮 查询对应分类歌单
+    queryCat(item) {
+      this.queryInfo.cat = item;
+      this.getPlaylistTopRef;
+      this.isShow = false;
     },
   },
 };
