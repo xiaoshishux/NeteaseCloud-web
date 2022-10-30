@@ -5,7 +5,10 @@
       <el-button><i class="iconfont icon-yinle"></i>收藏</el-button>
       <el-button><i class="iconfont icon-fenxiang1"></i>分享</el-button>
       <el-button><i class="iconfont icon-xiazai"></i>下载</el-button>
-      <el-button><i class="iconfont icon-xinxi"></i>评论</el-button>
+      <el-button
+        ><i class="iconfont icon-xinxi"></i>评论
+        <span>({{ totalAttr ? totalAttr : "0" }})</span>
+      </el-button>
     </p>
   </div>
 </template>
@@ -14,7 +17,17 @@
 export default {
   name: "DetBtn",
   components: {},
-  props: {},
+  props: {
+    // 歌曲评论数量
+    totalAttr: null,
+    // 歌单详细
+    playListInfoAttr: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {};
   },

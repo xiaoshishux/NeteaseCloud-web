@@ -19,7 +19,7 @@
                 v-show="isShow"
               ></play-list-cat>
             </div>
-            <span>热门</span>
+            <span @click="QueryAll">热门</span>
           </div>
           <!-- 内容 -->
           <div class="content">

@@ -24,7 +24,10 @@
             </span>
           </p>
           <!-- 四个按钮 -->
-          <det-btn></det-btn>
+          <det-btn
+            :totalAttr="playListCommentsAttr.total"
+            :playListInfoAttr="playListInfoAttr"
+          ></det-btn>
           <!-- 歌单描述 -->
           <div class="list-dec">
             <div>
@@ -103,6 +106,12 @@ export default {
   },
   props: {
     playListInfoAttr: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    playListCommentsAttr: {
       type: Object,
       default() {
         return {};
