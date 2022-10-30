@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 // import Home from '../views/Home.vue'
 const headerMenu = () => import('../components/headers/headerMenu')
 const Home = () => import('../views/Home/Home.vue')
@@ -12,6 +13,7 @@ const Rank = () => import('../views/Home/Rank.vue')
 const SingerDet = () => import('../components/Singer/SingerDet.vue')
 const SongDet = () => import('../components/song/songDet/SongDet.vue')
 const MvDet = () => import('../components/mv/MvDet.vue')
+const MyMusic = () => import('../views/Home/MyMusic.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +54,7 @@ const routes = [
       {
         path: "/singList/detail", component: SingListDet
       },
+      { path: '/mymusic', component: MyMusic },
 
     ]
   }
@@ -71,4 +74,12 @@ const router = new VueRouter({
   routes
 })
 
+
+router.beforeEach((to, from, next) => {
+  // to and from are both route objects. must call `next`.
+  if (to.path === '/mymusic' && window.sessionStorage.getItem('profile') === null) {
+    next('/login')
+  }
+  next()
+})
 export default router
