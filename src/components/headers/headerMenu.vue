@@ -62,17 +62,21 @@
     <router-view></router-view>
     <!-- 登录对话框 -->
     <login-dialog v-show="isShow" @ctrClose="ctrClosed"></login-dialog>
+    <!-- 播放控件 -->
+    <play-bar></play-bar>
   </div>
 </template>
 
 <script>
 import Search from "../headers/search/Search.vue";
 import LoginDialog from "./login/login.vue";
+import PlayBar from "../play/PlayBar.vue";
 export default {
   name: "HeadersMenu",
   components: {
     Search,
     LoginDialog,
+    PlayBar,
   },
   props: {},
   data() {
